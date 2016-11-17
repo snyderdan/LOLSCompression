@@ -1,5 +1,8 @@
 #include "compressT_LOLS.h"
 
+/**
+ * method used when spawning each thread
+ */
 void *compress_segment_thread(void *segment) {
     Segment *s = (Segment *) segment;
     compress_segment(s->in_file, s->out_file, s->start, s->length);
