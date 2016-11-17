@@ -1,3 +1,5 @@
+ //added this to test gitkraken
+ 
   void compressR_LOLS(const char *fname, int segcount) {
     char ** execpass;
     *(execpass) = "
