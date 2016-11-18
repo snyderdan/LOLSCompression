@@ -64,7 +64,7 @@ int test6() {
 }
 
 char *test7str = "Odd splits";
-int test6() {
+int test7() {
 	int b = compressT_LOLS("test6.txt", 11);
 	system("rm test6_txt_LOLS*");
 	return b;

@@ -9,7 +9,7 @@
  */
 int check_file(char * infile, int segments) {
     if (segments <= 0) {
-        printf("Not a valid number of child process requests");
+        printf("Not a valid number of child process requests\n");
         return -1;
 	}
     int fsize = 0;
@@ -22,10 +22,10 @@ int check_file(char * infile, int segments) {
 		fseek(fp, 0, SEEK_END);
         fsize = ftell(fp); 
         if (fsize == 0) {
-            printf("Empty input file");}
+            printf("Empty input file\n");}
             return -1;
         } else if (fsize <= segments) {
-            printf("Fewer characters than child process request?");
+            printf("Fewer characters than child process request?\n");
             return -1; 
         fclose(fp);
     }
@@ -39,7 +39,7 @@ int check_file(char * infile, int segments) {
     strcat(cName, "_LOLS");
     fp2 = fopen(cName, "r");
     if (fp2 != NULL){
-        printf("compressed file already exists");
+        printf("compressed file already exists\n");
         fclose(fp2);
         return -1;
    
@@ -49,7 +49,7 @@ int check_file(char * infile, int segments) {
     *(cName + temp) = '\0';
     fp3 = fopen(cName, "r");
     if (fp3 != NULL) {
-        printf("compressed file already exists");
+        printf("compressed file already exists\n");
         fclose(fp3);
         return -1;
     }

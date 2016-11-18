@@ -2,4 +2,4 @@
 
 
 
-void compressR_LOLS(const char *fname, int segcount);
+int compressR_LOLS(char *fname, int segcount);
