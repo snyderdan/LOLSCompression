@@ -9,10 +9,10 @@ void *compress_segment_thread(void *segment) {
     return NULL;
 }
 
-void compressT_LOLS(char *fname, int segcount) {
+int compressT_LOLS(char *fname, int segcount) {
     int length = check_file(fname, segcount);
     // if check_file returns -1, the file either doesn't exist, length is too short, or file is already compressed
-    if (length == -1) return;
+    if (length == -1) return 0;
     
     // typical segment length
     int seg_length = length / segcount;
@@ -77,5 +77,5 @@ void compressT_LOLS(char *fname, int segcount) {
     free(segments);
     free(threads);
     free(outfmt);
-    
+    return length;
 }

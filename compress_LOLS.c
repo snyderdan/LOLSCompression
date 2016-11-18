@@ -1,3 +1,4 @@
+#include <ctype.h>
 #include "compress_LOLS.h"
 
 int check_file(char * infile, int segments) {
@@ -59,8 +60,7 @@ int check_file(char * infile, int segments) {
  *
  * This compression method shortens runs of the same character. If there is either 1 or 2 of the same
  * character, then no change is made. If more than 2 are found, then it is replaced with the count followed
- * by the character to replace. The algorithm maxes out at compressing 9 characters together. This is 
- * to avoid confusion with strings like "10A" whether it should be 10 A's or 1 '0' followed by A.
+ * by the character to replace. 
  *
  */
 char *_compress_LOLS(char *section, int length) {
@@ -90,8 +90,13 @@ char *_compress_LOLS(char *section, int length) {
     // running is set to the first char (or zero-th) so set count to 1 and in index to 1
     for (count=1, inI=1, outI=0; inI<length; inI++) {
         current = section[inI];
-        if ((current == running) && (count < 9)) {
-            // currently limiting runs to 9 or less
+        
+        if (!isalpha(current)) {
+			printf("\n***Got unexpected character '%c'. Ignoring***\n\n", current);
+			continue;
+		}
+		
+        if (current == running) {
             count++;
         } else {
             // if there was a change in running char, we write the output

@@ -10,6 +10,6 @@ typedef struct {
     int length;
 } Segment;
 
-void compressT_LOLS(char *fname, int segcount);
+int compressT_LOLS(char *fname, int segcount);
 
 #endif
