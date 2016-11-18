@@ -7,11 +7,14 @@
  
 void compressR_LOLS(const char *fname, int segcount) {
     //make array to pass in execvp
-    char * execpass[4];
-    char passLength[10], passStart[10];
-    execpass[0] = passStart;
-    execpass[1] = passLength;
-    execpass[2] = fname;
+    char * execpass[6];
+    char passLength[10], passStart[10], exec[20];
+    exec = "compressR_worker_LOLS\0";
+    execpass[0] = exec;
+    execpass[1] = passStart;
+    execpass[2] = passLength;
+    execpass[3] = fname;
+    execpass[5] = NULL;
     //make array of PIDs to wait on
     pid_t pids[segcount];
     pid_t pid, parent;
@@ -21,7 +24,7 @@ void compressR_LOLS(const char *fname, int segcount) {
     int slack = length % segcount;
     int i, position = 0;
     char * out_file;
-    execpass[3] = out_file;
+    execpass[4] = out_file;
     // copy file name, append _LOLS to the end and add %d for segment number
 	char *outfmt = malloc(fname_len + 10);
 	int fname_len = strlen(fname);
@@ -44,7 +47,7 @@ void compressR_LOLS(const char *fname, int segcount) {
         pid = fork();
         if (pid != 0){
             pids[i] = pid;
-            parent = waitpid(cpid, &status);}
+            parent = waitpid(pid, &status);}
         else { 
         	//if child then get metadata and pass to execvp
 			execvp("compressR_worker_LOLS", execpass);

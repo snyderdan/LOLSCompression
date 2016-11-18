@@ -1,20 +1,24 @@
- //added this to test gitkraken
- 
-  void compressR_LOLS(const char *fname, int segcount) {
-    char ** execpass;
-    *(execpass) = "
-    pid_t pids[segcount];
-    pid_t pid, parent;
-    int status; 
-    int seg_length = length / segcount;
-    int slack = length % segcount;
-    int i, position = 0;
-    int length = check_file(fname, segcount);
-        if (length == -1) return;  
-    for (i; i<segcount; i++){
-        pid = fork();
-        if (pid != 0){
-            pids[i] = pid;
-            parent = waitpid(cpid, &status);}
-        else { 
-            execvp(
+#include "compress_LOLS.h"
+#include "compressR_LOLS.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+
+
+int main(int argc, char *argv[]){
+
+compress_segment(argv[3], argv[4], atoi(argv[1]), atoi(argv[2]));
+
+
+return 0;
+
+}
+
+
+
+
+
+
+
+	
