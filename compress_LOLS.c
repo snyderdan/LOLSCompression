@@ -1,6 +1,12 @@
 #include <ctype.h>
 #include "compress_LOLS.h"
 
+
+/**
+ * checks to ensure that the file both exists and was not previously compressed.
+ * 
+ * Returns -1 if the file cannot be compressed (already compressed, bad size to segment ratio
+ */
 int check_file(char * infile, int segments) {
     if (segments <= 0) {
         printf("Not a valid number of child process requests");
@@ -109,6 +115,13 @@ char *_compress_LOLS(char *section, int length) {
     return output;
 }
 
+/**
+ * compress_segment takes a file name, an output file name, a starting pos, and length.
+ * 
+ * This method compresses a specific segment of a file and writes it to the 
+ * specified output file. This is the method called by both thread and process versions
+ * of the LOLS compression project.
+ */
 void compress_segment(char *fname, char *outname, int start, int length) {
     FILE *file = fopen(fname, "rb");
     char *section = malloc(sizeof(char) * length);
