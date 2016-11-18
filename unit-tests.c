@@ -1,3 +1,4 @@
+#include "compress_LOLS.h"
 #include "compressT_LOLS.h"
 #include "compressR_LOLS.h"
 
@@ -25,14 +26,12 @@ void time_test(char *tstname, int (*funct)()) {
 
 char *test0str = "File DNE";
 int test0() {
-	compressT_LOLS("test0.txt", 1);
-	return compressR_LOLS("test0.txt", 1);
+	return compressT_LOLS("test0.txt", 1);
 }
 
 char *test1str = "File already compressed";
 int test1() {
-	compressT_LOLS("test1.txt", 2);
-	return compressR_LOLS("test1.txt", 2);
+	return compressT_LOLS("test1.txt", 2);
 }
 
 char *test2str = "Segments > length";
@@ -81,7 +80,9 @@ int main() {
 	// these include testing split boundaries, whether the file is already compressed,
 	// non-alphabetic characters, etc. and therefore these tests are only run using
 	// compressT_LOLS, which was an arbitrary decision.
-	time_test(test0str, test0);
+	
+	/*time_test(test0str, test0);
+	
 	time_test(test1str, test1);
 	system("rm test1_txt_LOLS*");
 	time_test(test2str, test2);
@@ -98,7 +99,10 @@ int main() {
 	system("rm test6_txt_LOLS*");
 	time_test(test7str, test7);
 	verify_pause();
-	system("rm test6_txt_LOLS*");
+	system("rm test6_txt_LOLS*");*/
+	
+	compressT_LOLS("test5.txt", 1);
+	
 	// The following tests are specific to testing threads VS. processes
 	// This includes scaling with threads, scaling with file sizes, and the
 	// contents of the files

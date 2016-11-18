@@ -16,20 +16,21 @@ int check_file(char * infile, int segments) {
     FILE * fp;
     FILE * fp2;
     FILE * fp3;
-    char * cName = (char *)malloc(strlen(infile) + 10);
+    char * cName = (char *)malloc(strlen(infile) + 20);
     fp = fopen(infile, "rb");
     if (fp != NULL) {
 		fseek(fp, 0, SEEK_END);
         fsize = ftell(fp); 
         if (fsize == 0) {
-            printf("Empty input file\n");}
+            printf("Empty input file\n");
+            fclose(fp);
             return -1;
-        } else if (fsize <= segments) {
+        } else if (fsize < segments) {
             printf("Fewer characters than child process request?\n");
+            fclose(fp);
             return -1; 
-        fclose(fp);
-    }
-    else {
+		}
+    } else {
         printf("File opening error: %s\n", strerror(errno));
         return -1;
     }
@@ -37,7 +38,7 @@ int check_file(char * infile, int segments) {
     strcpy(cName, infile);
     *(cName + (strlen(cName) - 4)) = '_';
     strcat(cName, "_LOLS");
-    fp2 = fopen(cName, "r");
+    fp2 = fopen(cName, "rb");
     if (fp2 != NULL){
         printf("compressed file already exists\n");
         fclose(fp2);
@@ -45,9 +46,9 @@ int check_file(char * infile, int segments) {
    
     }
     int temp = strlen(cName);
-    *(cName + (temp - 1)) = '0';
-    *(cName + temp) = '\0';
-    fp3 = fopen(cName, "r");
+    *(cName + temp) = '0';
+    *(cName + temp + 1) = '\0';
+    fp3 = fopen(cName, "rb");
     if (fp3 != NULL) {
         printf("compressed file already exists\n");
         fclose(fp3);

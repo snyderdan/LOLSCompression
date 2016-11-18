@@ -1,7 +1,7 @@
 default: all
 
 all: compressT_LOLS.o compressR_LOLS.o compressR_worker_LOLS unit-tests.c
-	gcc -o unit-tests unit-tests.c compressT_LOLS.o compressR_LOLS.o compress_LOLS.o -lpthread
+	gcc -o unit-tests unit-tests.c compressT_LOLS.o compressR_LOLS.o compress_LOLS.o -lpthread -gstabs+
 	
 compressT_LOLS.o: compress_LOLS.o compressT_LOLS.c compressT_LOLS.h
 	gcc -o compressT_LOLS.o -c compressT_LOLS.c
