@@ -23,7 +23,7 @@ int compressT_LOLS(char *fname, int segcount) {
     int i, tcount, position = 0;
     
     // temp object for current segment
-    Segment seg;
+    Segment *seg;
     // arrays for threads and their respective segment
     Segment   *segments = malloc(sizeof(Segment) * segcount);
     pthread_t *threads = malloc(sizeof(pthread_t) * segcount);
@@ -35,21 +35,21 @@ int compressT_LOLS(char *fname, int segcount) {
     
     for (i=0; i<segcount; i++) {
         // get segment for this thread
-        seg = segments[i];
+        seg = &segments[i];
         // set file name, starting and ending position
-        seg.start = position;
-        seg.length = seg_length + ((slack > 0) ? 1 : 0);
-        seg.in_file = fname;
+        seg->start = position;
+        seg->length = seg_length + ((slack > 0) ? 1 : 0);
+        seg->in_file = fname;
         // allocate output file name, and insert segment number
-        seg.out_file = malloc(fname_len + 15);
-        sprintf(seg.out_file, outfmt, i);
+        seg->out_file = malloc(fname_len + 15);
+        sprintf(seg->out_file, outfmt, i);
         if (segcount == 1) {
             // if we are only processing 1 segment, then we remove the "0" at the end of the file name
-            seg.out_file[strlen(seg.out_file) - 1] = '\0';
+            seg->out_file[strlen(seg->out_file) - 1] = '\0';
         }
         
         // attempt to create a new thread
-        if (pthread_create(&threads[i], NULL, &compress_segment_thread, &segments[i])) {
+        if (pthread_create(&threads[i], NULL, &compress_segment_thread, seg)) {
             // if it fails, print error, kill all running threads, and return
             printf("Error creating threads for compression, output is not valid.\n");
             for (i=0; i<tcount; i++) {
@@ -57,9 +57,8 @@ int compressT_LOLS(char *fname, int segcount) {
             }
             break;
         } else {
-			printf("success\n");
             // otherwise, we move our position, increment thread count, and decrease slack
-            position += seg.length;
+            position += seg->length;
             tcount++;
             slack--;
         }
@@ -67,16 +66,14 @@ int compressT_LOLS(char *fname, int segcount) {
     
     if (tcount == segcount) {
         for (i=0; i<tcount; i++) {
-			printf("Waiting\n");
             pthread_join(threads[i], NULL);
         }
     }
-    
+
     for (i=0; i<tcount; i++) {
         free(segments[i].out_file);
     }
     
-    printf("Freeing\n");
     free(segments);
     free(threads);
     free(outfmt);

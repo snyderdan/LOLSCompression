@@ -9,7 +9,7 @@
  */
 int check_file(char * infile, int segments) {
     if (segments <= 0) {
-        printf("Not a valid number of child process requests\n");
+        printf("Invalid number of segments - cannot be processed\n");
         return -1;
 	}
     int fsize = 0;
@@ -26,7 +26,7 @@ int check_file(char * infile, int segments) {
             fclose(fp);
             return -1;
         } else if (fsize < segments) {
-            printf("Fewer characters than child process request?\n");
+            printf("Fewer characters than segments - cannot be processed\n");
             fclose(fp);
             return -1; 
 		}
@@ -99,7 +99,7 @@ char *_compress_LOLS(char *section, int length) {
         current = section[inI];
         
         if (!isalpha(current)) {
-			printf("\n***Got unexpected character '%c'. Ignoring***\n\n", current);
+			printf("***Got unexpected character '%c'. Ignoring***\n", current);
 			continue;
 		}
 		

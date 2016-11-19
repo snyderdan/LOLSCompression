@@ -15,12 +15,13 @@
  */
 
 void time_test(char *tstname, int (*funct)()) {
+	printf("\nTesting case '%s'\n", tstname);
 	clock_t begin = clock();
 	int bytes = funct();
 	clock_t end = clock();
 	double time_spent = (double)(end - begin) / (CLOCKS_PER_SEC / 1000);
 	double kbytes_sec = bytes / time_spent;
-	printf("'%50s' test took: %.05lf ms to run, at %.02lf kB/sec\n", tstname, time_spent, kbytes_sec);
+	printf("Test took: %.05lf ms to run, at %.02lf kB/sec\n", tstname, time_spent, kbytes_sec);
 }
 
 
@@ -36,37 +37,37 @@ int test1() {
 
 char *test2str = "Segments > length";
 int test2() {
-	return compressT_LOLS("test1.txt", 9);
+	return compressT_LOLS("test2.txt", 9);
 }
 
 char *test3str = "Segments = length";
 int test3() {
-	return compressT_LOLS("test1.txt", 8);
+	return compressT_LOLS("test3.txt", 8);
 }
 
 char *test4str = "Simple standard test";
 int test4() {
-	return compressT_LOLS("test1.txt", 2);
+	return compressT_LOLS("test4.txt", 2);
 }
 
 char *test5str = "Non-alphabetic character";
 int test5() {
-	int b = compressT_LOLS("test5.txt", 3);
-	return b;
+	return compressT_LOLS("test5.txt", 3);
 }
 
 char *test6str = "Even splits";
 int test6() {
-	int b = compressT_LOLS("test6.txt", 12);
-	system("rm test6_txt_LOLS*");
-	return b;
+	return compressT_LOLS("test6.txt", 12);
 }
 
 char *test7str = "Odd splits";
 int test7() {
-	int b = compressT_LOLS("test6.txt", 11);
-	system("rm test6_txt_LOLS*");
-	return b;
+	return compressT_LOLS("test7.txt", 11);
+}
+
+char *test8str = "Thread time consistency";
+int test8() {
+	return compressT_LOLS("test8.txt", 4);
 }
 
 
@@ -80,17 +81,15 @@ int main() {
 	// these include testing split boundaries, whether the file is already compressed,
 	// non-alphabetic characters, etc. and therefore these tests are only run using
 	// compressT_LOLS, which was an arbitrary decision.
-	
-	/*time_test(test0str, test0);
-	
+	time_test(test0str, test0);
 	time_test(test1str, test1);
-	system("rm test1_txt_LOLS*");
 	time_test(test2str, test2);
 	time_test(test3str, test3);
 	verify_pause();
-	system("rm test1_txt_LOLS*");
+	system("rm test3_txt_LOLS*");
 	time_test(test4str, test4);
 	verify_pause();
+	system("rm test4_txt_LOLS*");
 	time_test(test5str, test5);
 	verify_pause();
 	system("rm test5_txt_LOLS*");
@@ -99,9 +98,18 @@ int main() {
 	system("rm test6_txt_LOLS*");
 	time_test(test7str, test7);
 	verify_pause();
-	system("rm test6_txt_LOLS*");*/
+	system("rm test7_txt_LOLS*");
+	time_test(test8str, test8);
+	system("rm test8_txt_LOLS*");
+	time_test(test8str, test8);
+	system("rm test8_txt_LOLS*");
+	time_test(test8str, test8);
+	system("rm test8_txt_LOLS*");
+	time_test(test8str, test8);
+	system("rm test8_txt_LOLS*");
+	time_test(test8str, test8);
+	system("rm test8_txt_LOLS*");
 	
-	compressT_LOLS("test5.txt", 1);
 	
 	// The following tests are specific to testing threads VS. processes
 	// This includes scaling with threads, scaling with file sizes, and the
