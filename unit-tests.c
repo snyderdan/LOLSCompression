@@ -71,6 +71,12 @@ int test8() {
 }
 
 
+char *test9str = "Process time consistency";
+int test9() {
+	return compressR_LOLS("test8.txt", 4);
+}
+
+
 void verify_pause() {
 	printf("Verify output. Press enter to continue...");
 	getchar();
@@ -109,7 +115,16 @@ int main() {
 	system("rm test8_txt_LOLS*");
 	time_test(test8str, test8);
 	system("rm test8_txt_LOLS*");
-	
+	time_test(test9str, test9);
+	system("rm test8_txt_LOLS*");
+	time_test(test9str, test9);
+	system("rm test8_txt_LOLS*");
+	time_test(test9str, test9);
+	system("rm test8_txt_LOLS*");
+	time_test(test9str, test9);
+	system("rm test8_txt_LOLS*");
+	time_test(test9str, test9);
+	system("rm test8_txt_LOLS*");
 	
 	// The following tests are specific to testing threads VS. processes
 	// This includes scaling with threads, scaling with file sizes, and the
