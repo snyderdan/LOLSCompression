@@ -1,0 +1,8 @@
+
+We tested our code for handling errors in the following ways:
+1. Test to see if the uncompressed file exists and is in the same directory
+2. Test to see if compressed files already exist
+3. Test to see if we have an empty input file
+4. Test to see if there are more requested processes/threads than characters to compress
+5. Test for non permissive characters and whitespace
+

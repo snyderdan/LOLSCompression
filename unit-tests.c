@@ -30,6 +30,11 @@ int test0() {
 	return compressT_LOLS("test0.txt", 1);
 }
 
+char *test00str = "File is empty";
+int test00(){
+	return compressT_LOLS("test.txt", 1);
+}
+
 char *test1str = "File already compressed";
 int test1() {
 	return compressT_LOLS("test1.txt", 2);
@@ -75,7 +80,6 @@ char *test9str = "Process time consistency";
 int test9() {
 	return compressR_LOLS("test8.txt", 4);
 }
-
 
 char * test10str = "Scaling test: One process";
 int test10() { 
@@ -162,6 +166,7 @@ int main() {
 	// non-alphabetic characters, etc. and therefore these tests are only run using
 	// compressT_LOLS, which was an arbitrary decision.
 	time_test(test0str, test0);
+	time_test(test00str, test00);
 	time_test(test1str, test1);
 	time_test(test2str, test2);
 	time_test(test3str, test3);
@@ -205,11 +210,11 @@ int main() {
 	// The following tests are specific to testing threads VS. processes
 	// This includes scaling with threads, scaling with file sizes, and the
 	// contents of the files
-	printf("The following tests will check compression speeds on full compressible file\n");
+	printf("The following tests will check compression speeds on fully compressible file\n");
 	time_test(test10str, test10);
 	system("rm test6_txt_LOLS*");
 	time_test(test11str, test11);
-	system("rm test6_txt_LOLS*");	
+	system("rm test6_txt_LOLS*");
 	time_test(test12str, test12);
 	system("rm test6_txt_LOLS*");	
 	time_test(test13str, test13);
@@ -231,8 +236,6 @@ int main() {
 	system("rm test9_txt_LOLS*");	
 	time_test(test20str, test20);
 	system("rm test9_txt_LOLS*");	
-	time_test(test21str, test21);
-	system("rm test9_txt_LOLS*");
 	verify_pause();
 
 	printf("The following test will check process vs thread compression speed for small, medium, and large input files\n");
@@ -243,11 +246,11 @@ int main() {
 	time_test(test24str, test24);
 	system("rm test8_txt_LOLS*");
 	time_test(test25str, test25);
-	system("rm test8_txst_LOLS*");
+	system("rm test8_txt_LOLS*");
 	time_test(test26str, test26);
 	system("rm test10_txt_LOLS*");
 	time_test(test27str, test27);
-
+	system("rm test10_txt_LOLS*");
 	verify_pause();
 
 	return 0;
