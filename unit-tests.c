@@ -50,7 +50,7 @@ int test4() {
 	return compressT_LOLS("test4.txt", 2);
 }
 
-char *test5str = "Non-alphabetic character";
+char *test5str = "Non-alphabetic character and whitespace";
 int test5() {
 	return compressT_LOLS("test5.txt", 3);
 }
@@ -77,6 +77,80 @@ int test9() {
 }
 
 
+char * test10str = "Scaling test: One process";
+int test10() { 
+	return compressR_LOLS("test6.txt", 1);
+	}
+
+char * test11str = "Scaling test: One thread";
+int test11() { 
+	return compressT_LOLS("test6.txt", 1);
+	}
+
+char * test12str = "Scaling test: 5 processes";
+int test12() { 
+	return compressR_LOLS("test6.txt", 5);
+}
+char * test13str = "Scaling test: 5 threads";
+int test13() { 
+	return compressT_LOLS("test6.txt", 5);
+}
+char * test14str = "Scaling test: 25 processes";
+int test14() { 
+	return compressR_LOLS("test6.txt", 25);
+}	
+char * test15str = "Scaling test: 25 threads";
+int test15() { 
+	return compressT_LOLS("test6.txt", 25);
+}	
+char * test16str = "Scaling test: One process";
+int test16() { 
+	return compressR_LOLS("test9.txt", 1);
+}	
+char * test17str = "Scaling test: One thread";
+int test17() { 
+	return compressT_LOLS("test9.txt", 1);
+}
+char * test18str = "Scaling test: 5 processes";
+int test18() { 
+	return compressR_LOLS("test9.txt", 5);
+}
+char * test19str = "Scaling test: 5 threads";
+int test19() { 
+	return compressT_LOLS("test9.txt", 5);
+}
+char * test20str = "Scaling test: 25 processes";
+int test20() { 
+	return compressR_LOLS("test9.txt", 25);
+}	
+char * test21str = "Scaling test: 25 threads";
+int test21() { 
+	return compressT_LOLS("test9.txt", 25);
+}
+char * test22str = "Scaling test processes: small file";
+int test22() { 
+	return compressR_LOLS("test11.txt", 5);
+}	
+char * test23str = "Scaling test threads: small file";
+int test23() { 
+	return compressT_LOLS("test11.txt", 5);
+}	
+char * test24str = "Scaling test processes: medium file";
+int test24() { 
+	return compressR_LOLS("test8.txt", 5);
+}	
+char * test25str = "Scaling test threads: medium file";
+int test25() { 
+	return compressT_LOLS("test8.txt", 5);
+}
+char * test26str = "Scaling test processes: large file";
+int test26() { 
+	return compressR_LOLS("test10.txt", 5);
+}	
+char * test27str = "Scaling test threads: large file";
+int test27() { 
+	return compressT_LOLS("test10.txt", 5);
+}	
 void verify_pause() {
 	printf("Verify output. Press enter to continue...");
 	getchar();
@@ -125,10 +199,59 @@ int main() {
 	system("rm test8_txt_LOLS*");
 	time_test(test9str, test9);
 	system("rm test8_txt_LOLS*");
+	verify_pause();
+
 	
 	// The following tests are specific to testing threads VS. processes
 	// This includes scaling with threads, scaling with file sizes, and the
 	// contents of the files
+	printf("The following tests will check compression speeds on full compressible file\n");
+	time_test(test10str, test10);
+	system("rm test6_txt_LOLS*");
+	time_test(test11str, test11);
+	system("rm test6_txt_LOLS*");	
+	time_test(test12str, test12);
+	system("rm test6_txt_LOLS*");	
+	time_test(test13str, test13);
+	system("rm test6_txt_LOLS*");	
+	time_test(test14str, test14);
+	system("rm test6_txt_LOLS*");	
+	time_test(test15str, test15);
+	system("rm test6_txt_LOLS*");
+	verify_pause();
 	
+	printf("The following tests will check compression speeds on non compressible files\n");
+	time_test(test16str, test16);
+	system("rm test9_txt_LOLS*");
+	time_test(test17str, test17);
+	system("rm test9_txt_LOLS*");	
+	time_test(test18str, test18);
+	system("rm test9_txt_LOLS*");	
+	time_test(test19str, test19);
+	system("rm test9_txt_LOLS*");	
+	time_test(test20str, test20);
+	system("rm test9_txt_LOLS*");	
+	time_test(test21str, test21);
+	system("rm test9_txt_LOLS*");
+	verify_pause();
+
+	printf("The following test will check process vs thread compression speed for small, medium, and large input files\n");
+	time_test(test22str, test22);
+	system("rm test11_txt_LOLS*");
+	time_test(test23str, test23);
+	system("rm test11_txt_LOLS*");
+	time_test(test24str, test24);
+	system("rm test8_txt_LOLS*");
+	time_test(test25str, test25);
+	system("rm test8_txst_LOLS*");
+	time_test(test26str, test26);
+	system("rm test10_txt_LOLS*");
+	time_test(test27str, test27);
+
+	verify_pause();
+
 	return 0;
 }
+
+
+
