@@ -21,17 +21,19 @@ int check_file(char * infile, int segments) {
     if (fp != NULL) {
 		fseek(fp, 0, SEEK_END);
         fsize = ftell(fp); 
+        fclose(fp);
         if (fsize == 0) {
             printf("Empty input file\n");
-            fclose(fp);
+            free(cName);
             return -1;
         } else if (fsize < segments) {
             printf("Fewer characters than segments - cannot be processed\n");
-            fclose(fp);
+            free(cName);
             return -1; 
 		}
     } else {
         printf("File opening error: %s\n", strerror(errno));
+        free(cName);
         return -1;
     }
     
@@ -42,6 +44,7 @@ int check_file(char * infile, int segments) {
     if (fp2 != NULL){
         printf("compressed file already exists\n");
         fclose(fp2);
+        free(cName);
         return -1;
    
     }
@@ -52,8 +55,10 @@ int check_file(char * infile, int segments) {
     if (fp3 != NULL) {
         printf("compressed file already exists\n");
         fclose(fp3);
+        free(cName);
         return -1;
     }
+    
     free(cName);
     return fsize;    
 }
@@ -75,7 +80,7 @@ char *_compress_LOLS(char *section, int length) {
     // if no modifications are made, return null
     if (length <= 2) return NULL;
     // declare output array, the current 'run' character, count of character, input index and output index
-    char *output = malloc(sizeof(char) * length);
+    char *output = malloc(sizeof(char) * length * 1.1);
     char running = section[0], current;
     int count, inI, outI;
     
@@ -143,5 +148,7 @@ void compress_segment(char *fname, char *outname, int start, int length) {
             fwrite(new, 1, strlen(new), file);
         }
         fclose(file);
+        free(section);
+        free(new);
     }
 }

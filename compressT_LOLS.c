@@ -20,7 +20,7 @@ int compressT_LOLS(char *fname, int segcount) {
     // slack variable for when segments are not all equal length
     int slack = length % segcount;
     int fname_len = strlen(fname);
-    int i, tcount, position = 0;
+    int i, tcount = 0, position = 0;
     
     // temp object for current segment
     Segment *seg;
